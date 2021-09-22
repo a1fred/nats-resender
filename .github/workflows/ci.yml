@@ -26,8 +26,6 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
 
       - name: Install goveralls
         env:
@@ -102,6 +100,7 @@ jobs:
           distribution: goreleaser
           version: latest
           args: release --rm-dist
+          workdir: nats-resender
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

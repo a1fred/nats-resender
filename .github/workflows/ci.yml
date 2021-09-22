@@ -25,12 +25,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get tag
-        id: tag
-        uses: dawidd6/action-get-tag@v1
-
       - name: Lint with golangci-lint
         uses: golangci/golangci-lint-action@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
 
       - name: Run GoReleaser
         if: ${{ startsWith(github.ref, 'refs/tags/') }}

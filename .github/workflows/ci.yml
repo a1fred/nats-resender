@@ -11,6 +11,9 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
     permissions:
       contents: read
       packages: read
@@ -29,14 +32,49 @@ jobs:
       - name: Lint with golangci-lint
         uses: golangci/golangci-lint-action@v2
 
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'go' ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v1
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
+
   release:
     name: Release
     runs-on: ubuntu-latest
-    needs: test
+    strategy:
+      fail-fast: false
+    needs:
+     - test
+     - analyze
+
     permissions:
       contents: write
       packages: write
+
     steps:
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+
       - name: Checkout repository
         uses: actions/checkout@v2
         with:

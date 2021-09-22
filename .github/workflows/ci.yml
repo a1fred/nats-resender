@@ -18,6 +18,12 @@ jobs:
       contents: read
       packages: read
 
+    services:
+      nats_from:
+        image: nats
+      nats_to:
+        image: nats
+
     steps:
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -36,6 +42,9 @@ jobs:
         uses: golangci/golangci-lint-action@v2
 
       - name: Run Unit tests
+        env:
+          NATS_FROM: nats://nats_from:4222
+          NATS_TO: nats://nats_to:4222
         run: |
           go test -covermode atomic -coverprofile=covprofile .
 

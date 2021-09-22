@@ -41,11 +41,8 @@ jobs:
           distribution: goreleaser
           version: latest
           args: release --rm-dist
-        ldflags:
-          - -X main.revision={{.Version}}-{{.Commit}}-{{.Date}} -s -w
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CGO_ENABLED: 0
 
       - name: deploy tagged to ghcr.io
         if: ${{ startsWith(github.ref, 'refs/tags/') }}

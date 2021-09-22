@@ -30,11 +30,14 @@ builds:
       - -X main.revision={{.Version}}-{{.Commit}}-{{.Date}} -s -w
 dockers:
   - goarch: amd64
+    use: buildx
+    dockerfile: Dockerfile
     image_templates:
       - "ghcr.io/a1fred/nats-resender:{{.Version}}"
       - "ghcr.io/a1fred/nats-resender:{{ .Major }}"
       - "ghcr.io/a1fred/nats-resender:{{ .Major }}.{{ .Minor }}"
     build_flag_templates:
+      - --platform=linux/amd64
       - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
       - "--label=org.opencontainers.image.title={{.ProjectName}}"
@@ -42,11 +45,14 @@ dockers:
       - "--label=org.opencontainers.image.version={{.Version}}"
       - "--platform=linux/amd64"
   - goarch: arm64
+    use: buildx
+    dockerfile: Dockerfile
     image_templates:
       - "ghcr.io/a1fred/nats-resender:{{.Version}}-arm64"
       - "ghcr.io/a1fred/nats-resender:{{ .Major }}-arm64"
       - "ghcr.io/a1fred/nats-resender:{{ .Major }}.{{ .Minor }}-arm64"
     build_flag_templates:
+      - --platform=linux/arm64/v8
       - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
       - "--label=org.opencontainers.image.title={{.ProjectName}}"

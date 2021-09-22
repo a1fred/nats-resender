@@ -38,12 +38,10 @@ dockers:
       - "ghcr.io/a1fred/nats-resender:{{ .Major }}.{{ .Minor }}"
     build_flag_templates:
       - --platform=linux/amd64
-      - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
       - "--label=org.opencontainers.image.title={{.ProjectName}}"
       - "--label=org.opencontainers.image.revision={{.FullCommit}}"
       - "--label=org.opencontainers.image.version={{.Version}}"
-      - "--platform=linux/amd64"
   - goarch: arm64
     use: buildx
     dockerfile: Dockerfile
@@ -53,9 +51,7 @@ dockers:
       - "ghcr.io/a1fred/nats-resender:{{ .Major }}.{{ .Minor }}-arm64"
     build_flag_templates:
       - --platform=linux/arm64/v8
-      - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
       - "--label=org.opencontainers.image.title={{.ProjectName}}"
       - "--label=org.opencontainers.image.revision={{.FullCommit}}"
       - "--label=org.opencontainers.image.version={{.Version}}"
-      - "--platform=linux/arm64"

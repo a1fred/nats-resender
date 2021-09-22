@@ -94,6 +94,13 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 
+      - name: GHCR Login
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ github.actor }}
+        run: |
+          echo ${GITHUB_TOKEN} | docker login ghcr.io -u ${USERNAME} --password-stdin
+
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:

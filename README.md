@@ -1,7 +1,9 @@
 # Nats-resender
-Resend messages from one nats to another
 
-[Docker container](https://github.com/a1fred/nats-resender/pkgs/container/nats-resender)
+[![CI](https://github.com/a1fred/nats-resender/actions/workflows/ci.yml/badge.svg)](https://github.com/a1fred/nats-resender/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/a1fred/nats-resender/badge.svg)](https://coveralls.io/github/a1fred/nats-resender)
+
+Resend messages from one nats to another
 
 # Usage
 ```sh
@@ -10,17 +12,17 @@ nats-resender version 9410787-master-20210922-00:29:55
 Usage of ./build/nats-resender:
   -debug
         Debug
-  
+
   -from-url string
-        nats source url (default "nats://127.0.0.1:4222")      
+        nats source url (default "nats://127.0.0.1:4222")
   -from-subj string
         nats source subject (default "*")
-  
+
   -to-url string
-        nats destination url (default "nats://127.0.0.1:4222")      
+        nats destination url (default "nats://127.0.0.1:4222")
   -to-subj string
         nats destination subject (default "nats-resender")
-  
+
   -queue string
         queue, disabled by default
   -pendingMsgLimit int
@@ -34,7 +36,7 @@ Usage of ./build/nats-resender:
 
 # Example
 ```shell
-$ ./build/nats-resender 
+$ ./build/nats-resender
 nats-resender version 9410787-master-20210921-18:26:04
 2021/09/21 18:26:16 0 messages processed, elapsed 10.00s, 0.00 msg/sec
 2021/09/21 18:26:26 114043 messages processed, elapsed 10.00s, 11404.28 msg/sec

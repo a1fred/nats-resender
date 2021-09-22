@@ -49,4 +49,5 @@ jobs:
           docker buildx build --push \
               --platform linux/amd64,linux/arm64 \
               -t ghcr.io/${GITHUB_REPOSITORY}/nats-resender:${GITHUB_REF} \
-              -t ghcr.io/${GITHUB_REPOSITORY}/nats-resender:latest
+              -t ghcr.io/${GITHUB_REPOSITORY}/nats-resender:latest \
+              .

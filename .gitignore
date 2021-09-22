@@ -1,6 +1,4 @@
 .idea
 build
-
-dist/
-
+nats-resender
 dist/

@@ -1,4 +1,4 @@
-name: Build
+name: CI
 
 on:
   push:
@@ -8,11 +8,12 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  test:
+    name: Test
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      packages: write
+      contents: read
+      packages: read
 
     steps:
       - name: Set up Go
@@ -27,6 +28,18 @@ jobs:
 
       - name: Lint with golangci-lint
         uses: golangci/golangci-lint-action@v2
+
+  release:
+    name: Release
+    needs: test
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1

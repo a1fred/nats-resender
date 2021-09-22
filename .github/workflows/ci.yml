@@ -47,11 +47,11 @@ jobs:
         env:
           GITHUB_PACKAGE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REF: ${{ steps.tag.outputs.tag }}
+          GITHUB_REF:
         run: |
           echo ${GITHUB_PACKAGE_TOKEN} | docker login ghcr.io -u ${GITHUB_ACTOR} --password-stdin
           docker buildx build --push \
               --platform linux/amd64,linux/arm64 \
-              -t ghcr.io/${GITHUB_REPOSITORY}/nats-resender:${GITHUB_REF} \
+              -t ghcr.io/${GITHUB_REPOSITORY}/nats-resender:${{ steps.tag.outputs.tag }} \
               -t ghcr.io/${GITHUB_REPOSITORY}/nats-resender:latest \
               .

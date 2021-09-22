@@ -42,7 +42,7 @@ jobs:
           version: latest
           args: release --rm-dist
         ldflags:
-          - -X main.revision="{{.Version}}-{{.Commit}}-{{.Date}}" -s -w
+          - -X main.revision={{.Version}}-{{.Commit}}-{{.Date}} -s -w
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CGO_ENABLED: 0

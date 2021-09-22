@@ -3,12 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/nats-io/nats.go"
 	"log"
 	"os"
 	"time"
-)
 
+	"github.com/nats-io/nats.go"
+)
 
 var revision = "unknown"
 
@@ -82,7 +82,7 @@ func main() {
 		start := time.Now()
 		time.Sleep(time.Duration(statPrintPeriod) * time.Second)
 		elapsed := time.Since(start).Seconds()
-		log.Printf("%d messages processed, elapsed %.2fs, %.2f msg/sec", processedCounter, elapsed, float64(processedCounter) / elapsed)
+		log.Printf("%d messages processed, elapsed %.2fs, %.2f msg/sec", processedCounter, elapsed, float64(processedCounter)/elapsed)
 		processedCounter = 0
 	}
 }

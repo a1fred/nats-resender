@@ -45,7 +45,5 @@ nats-resender version 9410787-master-20210921-18:26:04
 2021/09/21 18:26:56 204887 messages processed, elapsed 10.00s, 20488.60 msg/sec
 ```
 
-
 # TODO
- * fix goveralls
- * better test coverage
+ * Add nkeys and creds authentication support

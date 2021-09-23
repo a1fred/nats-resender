@@ -33,11 +33,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install goveralls
-        env:
-          GO111MODULE: off
-        run: go get github.com/mattn/goveralls
-
       - name: Lint with golangci-lint
         uses: golangci/golangci-lint-action@v2
 
@@ -46,12 +41,15 @@ jobs:
           NATS_FROM: nats://nats_from:4222
           NATS_TO: nats://nats_to:4222
         run: |
-          go test -covermode atomic -coverprofile=covprofile .
+          go test -covermode atomic -coverprofile=covprofile ./...
 
       - name: Send coverage
         env:
+          GO111MODULE: off
           COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: goveralls -coverprofile=covprofile -service=github
+        run: |
+          go get github.com/mattn/goveralls
+          goveralls -coverprofile=covprofile -service=github
 
   analyze:
     name: Analyze

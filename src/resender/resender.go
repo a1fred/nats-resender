@@ -30,7 +30,6 @@ func NewResender(fromUrl, toUrl string) *Resender {
 		if err != nil {
 			log.Fatalln(fmt.Errorf("destination nats (%s) to connect error: %s", toUrl, err))
 		}
-		defer ncTo.Close()
 	}
 
 	return &Resender{

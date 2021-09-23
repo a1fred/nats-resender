@@ -3,6 +3,7 @@ package resender
 import (
 	"os"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -34,9 +35,15 @@ func TestResender(t *testing.T) {
 	assert.Nil(t, nn.sub)
 	assert.Equal(t, nn.processedCounter, uint(0))
 
-	sub, err := nn.Subscribe("*", "", "to", 10, 10, false)
+	sub, err := nn.Subscribe("*", "", "to", 10, 10, true)
 	assert.Nil(t, err)
 	assert.NotNil(t, sub)
+	assert.Equal(t, nn.processedCounter, uint(0))
+
+	err = nn.ncFrom.Publish("test", []byte("test"))
+	time.Sleep(1 * time.Second)
+	assert.Nil(t, err)
+	assert.Equal(t, nn.processedCounter, uint(1))
 
 	// Close no errors
 	assert.Nil(t, nn.Close())

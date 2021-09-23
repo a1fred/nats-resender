@@ -11,8 +11,6 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
 
     permissions:
       contents: read
@@ -21,8 +19,12 @@ jobs:
     services:
       nats_from:
         image: nats
+        ports:
+          - 4222:4222
       nats_to:
         image: nats
+        ports:
+          - 4223:4222
 
     steps:
       - name: Set up Go
@@ -39,7 +41,7 @@ jobs:
       - name: Run Unit tests
         env:
           NATS_FROM: nats://nats_from:4222
-          NATS_TO: nats://nats_to:4222
+          NATS_TO: nats://nats_to:4223
         run: |
           go test -covermode atomic -coverprofile=covprofile ./...
 
@@ -78,8 +80,6 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
     if: ${{ startsWith(github.ref, 'refs/tags/') }}
     needs:
      - test
@@ -116,16 +116,3 @@ jobs:
           args: release --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Deploy tagged to ghcr.io
-        env:
-          GITHUB_PACKAGE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REF:
-        run: |
-          echo ${GITHUB_PACKAGE_TOKEN} | docker login ghcr.io -u ${GITHUB_ACTOR} --password-stdin
-          docker buildx build --push \
-              --platform linux/amd64,linux/arm64 \
-              -t ghcr.io/${GITHUB_REPOSITORY}:${{ steps.tag.outputs.tag }} \
-              -t ghcr.io/${GITHUB_REPOSITORY}:latest \
-              .

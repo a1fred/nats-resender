@@ -20,12 +20,8 @@ jobs:
     services:
       nats_from:
         image: nats
-        ports:
-          - 4222:4222
       nats_to:
         image: nats
-        ports:
-          - 4223:4222
 
     steps:
       - name: Set up Go
@@ -42,7 +38,7 @@ jobs:
       - name: Run Unit tests
         env:
           NATS_FROM: nats://nats_from:4222
-          NATS_TO: nats://nats_to:4223
+          NATS_TO: nats://nats_to:4222
         run: |
           go test -covermode atomic -coverprofile=covprofile ./...
 

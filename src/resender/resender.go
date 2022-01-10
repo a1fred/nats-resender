@@ -16,20 +16,20 @@ type Resender struct {
 	processedCounter uint
 }
 
-func NewResender(fromUrl, toUrl *options.NatsOptions) *Resender {
+func NewResender(fromNats, toNats *options.NatsOptions) *Resender {
 	var ncFrom, ncTo *nats.Conn
 
-	ncFrom, err := fromUrl.Connect()
+	ncFrom, err := fromNats.Connect()
 	if err != nil {
-		log.Fatalln(fmt.Errorf("source nats (%s) connect error: %s", fromUrl, err))
+		log.Fatalln(fmt.Errorf("source nats (%s) connect error: %s", fromNats.Url, err))
 	}
 
-	if fromUrl == toUrl {
+	if fromNats == toNats {
 		ncTo = ncFrom
 	} else {
-		ncTo, err = toUrl.Connect()
+		ncTo, err = toNats.Connect()
 		if err != nil {
-			log.Fatalln(fmt.Errorf("destination nats (%s) to connect error: %s", toUrl, err))
+			log.Fatalln(fmt.Errorf("destination nats (%s) to connect error: %s", toNats.Url, err))
 		}
 	}
 

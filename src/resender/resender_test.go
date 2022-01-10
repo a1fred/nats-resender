@@ -5,6 +5,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/a1fred/nats-resender/src/options"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -17,10 +18,10 @@ func GetEnv(key, fallback string) string {
 	return val
 }
 
-func GetNatsUrls(t *testing.T) (string, string) {
+func GetNatsUrls(t *testing.T) (*options.NatsOptions, *options.NatsOptions) {
 	fromUrl, toUrl := GetEnv("NATS_FROM", "nats://127.0.0.1:4222"), GetEnv("NATS_TO", "nats://127.0.0.1:4223")
 	t.Logf("Nats connections: from: %s, to: %s\n", fromUrl, toUrl)
-	return fromUrl, toUrl
+	return &options.NatsOptions{Url: fromUrl}, &options.NatsOptions{Url: toUrl}
 }
 
 func TestResender(t *testing.T) {

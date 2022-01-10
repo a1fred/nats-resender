@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/a1fred/nats-resender/src/options"
 	"github.com/nats-io/nats.go"
 )
 
@@ -15,10 +16,10 @@ type Resender struct {
 	processedCounter uint
 }
 
-func NewResender(fromUrl, toUrl string) *Resender {
+func NewResender(fromUrl, toUrl *options.NatsOptions) *Resender {
 	var ncFrom, ncTo *nats.Conn
 
-	ncFrom, err := nats.Connect(fromUrl)
+	ncFrom, err := fromUrl.Connect()
 	if err != nil {
 		log.Fatalln(fmt.Errorf("source nats (%s) connect error: %s", fromUrl, err))
 	}
@@ -26,7 +27,7 @@ func NewResender(fromUrl, toUrl string) *Resender {
 	if fromUrl == toUrl {
 		ncTo = ncFrom
 	} else {
-		ncTo, err = nats.Connect(toUrl)
+		ncTo, err = toUrl.Connect()
 		if err != nil {
 			log.Fatalln(fmt.Errorf("destination nats (%s) to connect error: %s", toUrl, err))
 		}

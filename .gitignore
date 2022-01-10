@@ -3,3 +3,4 @@ build
 nats-resender
 dist/
 .coverage
+certs

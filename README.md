@@ -7,43 +7,58 @@ Resend messages from one nats to another
 
 # Usage
 ```sh
-$ ./build/nats-resender --help
-nats-resender version 9410787-master-20210922-00:29:55
-Usage of ./build/nats-resender:
+$ ./nats-resender --help
+nats-resender version v1.0.29-3-g47b65aa-tls-20220111-16:31:16
+Usage of ./nats-resender:
   -debug
         Debug
-
+  -from-creds string
+        nats source user credentials file
+  -from-nkey string
+        nats source nkey seed file
+  -from-subj string
+        nats source url (default "*")
+  -from-tlscacrt string
+        nats source tls ca cert file
+  -from-tlscrt string
+        nats source tls cert file
+  -from-tlsinsecure
+        nats source disable tls cert verification
+  -from-tlskey string
+        nats source tls key file
   -from-url string
         nats source url (default "nats://127.0.0.1:4222")
-  -from-subj string
-        nats source subject (default "*")
-
-  -to-url string
-        nats destination url (default "nats://127.0.0.1:4222")
-  -to-subj string
-        nats destination subject (default "nats-resender")
-
-  -queue string
-        queue, disabled by default
-  -pendingMsgLimit int
-        pending subscription message limit (default 524288)
   -pendingByteLimit int
         pending subscription byte limit (default 67108864)
-
+  -pendingMsgLimit int
+        pending subscription message limit (default 524288)
   -print-period uint
         Print period seconds (default 10)
+  -queue string
+        queue, disabled by default
+  -to-creds string
+        nats source user credentials file
+  -to-nkey string
+        nats source nkey seed file
+  -to-subj string
+        nats source url (default "*")
+  -to-tlscacrt string
+        nats source tls ca cert file
+  -to-tlscrt string
+        nats source tls cert file
+  -to-tlsinsecure
+        nats source disable tls cert verification
+  -to-tlskey string
+        nats source tls key file
+  -to-url string
+        nats source url (default "nats://127.0.0.1:4222")
 ```
 
 # Example
 ```shell
-$ ./build/nats-resender
-nats-resender version 9410787-master-20210921-18:26:04
-2021/09/21 18:26:16 0 messages processed, elapsed 10.00s, 0.00 msg/sec
-2021/09/21 18:26:26 114043 messages processed, elapsed 10.00s, 11404.28 msg/sec
-2021/09/21 18:26:36 228342 messages processed, elapsed 10.00s, 22834.15 msg/sec
-2021/09/21 18:26:46 228038 messages processed, elapsed 10.00s, 22803.75 msg/sec
-2021/09/21 18:26:56 204887 messages processed, elapsed 10.00s, 20488.60 msg/sec
+$ ./nats-resender --to-url=nats://127.0.0.1:4223
+nats-resender version v1.0.29-3-g47b65aa-tls-20220111-16:35:20
+Resending nats://127.0.0.1:4222/* -> nats://127.0.0.1:4223/*
+2022/01/11 16:35:35 973972 processed, 10.00s elapsed, 97396.64 msg/sec, buffer:85539msgs/10948992bytes
+2022/01/11 16:35:45 1870045 processed, 10.00s elapsed, 187003.72 msg/sec, buffer:209215msgs/26779520bytes
 ```
-
-# TODO
- * Add nkeys and creds authentication support

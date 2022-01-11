@@ -7,18 +7,6 @@ import (
 	"github.com/nats-io/nats.go"
 )
 
-type Options struct {
-	FromNats *NatsOptions
-	ToNats   *NatsOptions
-
-	Queue            string
-	PendingMsgLimit  int
-	PendingByteLimit int
-
-	Debug           bool
-	StatPrintPeriod uint ``
-}
-
 func NewOptions() *Options {
 	options := &Options{
 		FromNats: NewNatsOptions("from", "nats source"),
@@ -39,7 +27,21 @@ func NewOptions() *Options {
 		options.FromNats.Url, options.FromNats.Subject,
 		options.ToNats.Url, options.ToNats.Subject,
 	)
-	fmt.Printf("Queue: %s\n", options.Queue)
+	if options.Queue != "" {
+		fmt.Printf("Queue: %s\n", options.Queue)
+	}
 
 	return options
+}
+
+type Options struct {
+	FromNats *NatsOptions
+	ToNats   *NatsOptions
+
+	Queue            string
+	PendingMsgLimit  int
+	PendingByteLimit int
+
+	Debug           bool
+	StatPrintPeriod uint ``
 }
